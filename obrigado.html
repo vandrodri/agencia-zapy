@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obrigado! - Zapy</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ESTILOS AUTO-CONTIDOS PARA ESTA PÁGINA */
+        :root {
+            --azul-zapy: #1A73E8;
+            --cor-fundo: #F0F2F5;
+            --cor-texto-principal: #212529;
+            --cor-texto-secundario: #495057;
+            --sombra-clara: #ffffff;
+            --sombra-escura: #d2d8de;
+        }
+
+        body.dark-mode {
+            --cor-fundo: #2a2f35;
+            --cor-texto-principal: #e4e6eb;
+            --cor-texto-secundario: #b0b3b8;
+            --sombra-clara: #343a40;
+            --sombra-escura: #202327;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto-principal);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .obrigado-container {
+            padding: 2rem;
+        }
+
+        .obrigado-card {
+            max-width: 600px;
+            background-color: var(--cor-fundo);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 8px 8px 16px var(--sombra-escura), -8px -8px 16px var(--sombra-clara);
+        }
+
+        .obrigado-card h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--azul-zapy);
+            margin-bottom: 1rem;
+        }
+
+        .obrigado-card p {
+            color: var(--cor-texto-secundario);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .obrigado-card .back-button {
+            display: inline-block;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto-secundario);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all .2s ease-in-out;
+            box-shadow: 6px 6px 12px var(--sombra-escura), -6px -6px 12px var(--sombra-clara);
+            border: none;
+        }
+
+        .obrigado-card .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 8px 8px 16px var(--sombra-escura), -8px -8px 16px var(--sombra-clara);
+            color: var(--cor-texto-principal);
+        }
+    </style>
+</head>
+<body>
+    <div class="obrigado-container">
+        <div class="obrigado-card">
+            <h1>Mensagem Recebida!</h1>
+            <p>Obrigado pelo seu contato. Nossa equipe de especialistas já está analisando suas informações e retornará o contato em até 24 horas para agendar sua análise gratuita.</p>
+            <a href="/" class="back-button">Voltar para o Início</a>
+        </div>
+    </div>
+
+    <script>
+        // SCRIPT MÍNIMO PARA APLICAR O TEMA CORRETO
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+        });
+    </script>
+</body>
+</html>
