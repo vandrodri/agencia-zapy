@@ -140,7 +140,7 @@ section:not(.hero-section) { border-top: 1px solid var(--borda-geral); }
     cursor: pointer;
     color: var(--cor-texto-principal);
 }
- ==========================================================================
+/* ==========================================================================
    5. SEÇÕES (PÁGINA PRINCIPAL)
    ========================================================================== */
 .hero-section { min-height: 80vh; display: flex; align-items: center; justify-content: center; animation: fadeInUp .8s ease-out; border-top: none; }
@@ -178,6 +178,96 @@ body.dark-mode .hero-section h1 { background: linear-gradient(45deg, #8ab4f8, #4
 .cta-form input:focus, .lp-form input:focus { outline: none; box-shadow: inset 6px 6px 10px var(--sombra-escura), inset -6px -6px 10px var(--sombra-clara); }
 .cta-form button { width: 100%; }
 
+/* ==========================================================================
+   5.5 SEÇÃO DE AVISO (NOVAS REGRAS) - VERSÃO FINAL
+   ========================================================================== */
+.rules-section {
+    background-color: var(--cor-fundo-footer);
+}
+.rules-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center; /* << VOLTAMOS PARA O ALINHAMENTO CENTRAL */
+    gap: 4rem; /* Aumentando o espaço */
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+}
+.rules-text {
+    text-align: left;
+    display: flex; /* << CHAVE DA SOLUÇÃO */
+    flex-direction: column; /* << CHAVE DA SOLUÇÃO */
+    justify-content: center; /* << CHAVE DA SOLUÇÃO */
+    height: 100%; /* << CHAVE DA SOLUÇÃO */
+}
+.rules-title {
+    font-size: clamp(2.2rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--cor-texto-principal);
+    margin-bottom: 1rem;
+}
+.rules-description {
+    font-size: 1.2rem;
+    color: var(--cor-texto-secundario);
+    margin-bottom: 2.5rem;
+    max-width: 500px;
+}
+.rules-button {
+    display: inline-block;
+    background-color: #d93025;
+    color: #fff;
+    padding: 1.1rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all .2s ease-in-out;
+    border: none;
+    cursor: pointer;
+    box-shadow: 6px 6px 12px var(--sombra-escura), -6px -6px 12px var(--sombra-clara);
+    align-self: flex-start; /* Alinha o botão à esquerda dentro do flex container */
+}
+.rules-button:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 9px 9px 18px var(--sombra-escura), -9px -9px 18px var(--sombra-clara);
+}
+.rules-button:active {
+    transform: translateY(1px);
+    box-shadow: inset 4px 4px 8px #b0261e, inset -4px -4px 8px #ff3a2c;
+}
+.rules-image {
+    text-align: center;
+}
+.rules-image img {
+    max-width: 480px;
+    width: 100%;
+    border-radius: 10px; /* Adicionando bordas arredondadas à imagem */
+}
+
+@media (max-width: 768px) {
+    .rules-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+    }
+    .rules-text {
+        order: 2;
+        text-align: center;
+        height: auto; /* Reseta a altura no mobile */
+    }
+    .rules-button {
+        align-self: center; /* Centraliza o botão no mobile */
+    }
+    .rules-image {
+        order: 1;
+        margin-bottom: 2rem;
+    }
+    .rules-image img {
+        max-width: 340px;
+    }
+}
 /* ==========================================================================
    6. RODAPÉ E COOKIE BANNER (PÁGINA PRINCIPAL)
    ========================================================================== */
@@ -251,4 +341,261 @@ body.dark-mode .hero-section h1 { background: linear-gradient(45deg, #8ab4f8, #4
     width: 38px; /* Ajuste o tamanho conforme necessário */
     height: auto;
     color: var(--azul-zapy);
+}
+/* ==========================================================================
+   10. ESTILOS DA PÁGINA PILAR
+   ========================================================================== */
+.pillar-hero-section {
+    text-align: center;
+    border-top: none;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+.pillar-hero-section h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.pillar-hero-section p.subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+    color: var(--cor-texto-secundario);
+    max-width: 800px;
+    margin: 0 auto 2rem auto;
+}
+
+.pillar-content-section .container {
+    max-width: 900px;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.pillar-content-section h2 {
+    text-align: left;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    border-bottom: 3px solid var(--azul-zapy);
+    padding-bottom: 0.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.pillar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 5rem;
+}
+
+.feature-box {
+    background-color: var(--cor-fundo);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: left;
+    box-shadow: 8px 8px 16px var(--sombra-escura), -8px -8px 16px var(--sombra-clara);
+    border-left: 5px solid var(--laranja-zapy);
+}
+.feature-box h3 {
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--cor-texto-principal);
+}
+.feature-box p {
+    color: var(--cor-texto-secundario);
+    margin-bottom: 1.5rem;
+}
+.feature-box a {
+    color: var(--azul-zapy);
+    font-weight: 700;
+    text-decoration: none;
+}
+.feature-box a:hover {
+    text-decoration: underline;
+}
+
+#contato-pilar .container {
+    padding-top: 4rem;
+}
+/* ==========================================================================
+   11. ESTILOS ESPECÍFICOS PARA LP - CHAT IA
+   ========================================================================== */
+.lp-header {
+    border-bottom: 1px solid var(--borda-geral);
+}
+.lp-header .cta-button {
+    padding: 0.8rem 1.8rem;
+    font-size: 1rem;
+}
+
+.lp-section .lp-container {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+.lp-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+@media (min-width: 992px) {
+    .lp-hero-grid {
+        grid-template-columns: 1.2fr 1fr;
+    }
+}
+
+.lp-hero-text h1 {
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: var(--cor-texto-principal);
+    text-align: left;
+}
+
+.lp-hero-text p {
+    font-size: 1.2rem;
+    color: var(--cor-texto-secundario);
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.benefits-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
+.benefits-list li {
+    font-size: 1.1rem;
+    color: var(--cor-texto-principal);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+.benefit-icon {
+    color: #34A853; /* Verde para sucesso */
+    font-weight: bold;
+    margin-right: 0.75rem;
+    line-height: 1.5;
+}
+
+.lp-form-card {
+    background-color: var(--cor-fundo);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 8px 8px 16px var(--sombra-escura), -8px -8px 16px var(--sombra-clara);
+}
+
+.lp-form-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.lp-form-card .form-subtitle {
+    text-align: center;
+    font-size: 1rem;
+    color: var(--cor-texto-secundario);
+    margin-bottom: 2rem;
+}
+
+.faq-section .container {
+    max-width: 800px;
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--borda-geral);
+}
+
+.faq-item summary {
+    font-size: 1.2rem;
+    font-weight: 500;
+    padding: 1.5rem 0;
+    cursor: pointer;
+    list-style: none; /* Remove o marcador padrão */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+    content: '+';
+    font-size: 2rem;
+    font-weight: 400;
+    transition: transform 0.3s ease;
+}
+
+.faq-item[open] summary::after {
+    transform: rotate(45deg);
+}
+
+.faq-answer p {
+    padding-bottom: 1.5rem;
+    margin-top: 0;
+    color: var(--cor-texto-secundario);
+}
+
+.lp-footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.9rem;
+    color: var(--cor-texto-secundario);
+    background-color: var(--cor-fundo-footer);
+}
+/* ==========================================================================
+   12. AJUSTE FINO - CENTRALIZAR LOGO NAS LPs
+   ========================================================================== */
+.lp-header-container {
+    justify-content: center; /* Centraliza o conteúdo do header */
+    position: relative; /* Necessário para posicionar o botão de tema */
+}
+
+.lp-header-container .theme-toggle-button {
+    position: absolute; /* Tira o botão do fluxo normal */
+    right: 2rem; /* Alinha o botão à direita */
+}
+/* ==========================================================================
+   13. PÁGINA DE OBRIGADO
+   ========================================================================== */
+.thank-you-section {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.thank-you-content .thank-you-icon {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 3rem;
+    background-color: #34A853;
+    color: white;
+    border-radius: 50%;
+    margin-bottom: 2rem;
+}
+.thank-you-content h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--cor-texto-principal);
+    margin-bottom: 1rem;
+}
+.thank-you-content p {
+    font-size: 1.2rem;
+    color: var(--cor-texto-secundario);
+    max-width: 600px;
+    margin: 0 auto 3rem auto;
 }
