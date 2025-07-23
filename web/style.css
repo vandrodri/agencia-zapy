@@ -598,4 +598,36 @@ body.dark-mode .hero-section h1 { background: linear-gradient(45deg, #8ab4f8, #4
     color: var(--cor-texto-secundario);
     max-width: 600px;
     margin: 0 auto 3rem auto;
+<<<<<<< HEAD
+}
+/* ==========================================================================
+   14. BOTÃO FLUTUANTE WHATSAPP
+   ========================================================================== */
+.whatsapp-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background-color: #25D366;
+  color: #FFF;
+  border-radius: 50%;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: transform 0.2s ease-in-out;
+  text-decoration: none;
+}
+
+.whatsapp-button:hover {
+  transform: scale(1.1);
+}
+
+.whatsapp-button img {
+  width: 35px; /* Ajuste o tamanho conforme necessário */
+  height: 35px;
+=======
+>>>>>>> 8dc39e1f1ea4a132f1c33457321bb445951f5b78
 }

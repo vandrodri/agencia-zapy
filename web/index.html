@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -11,7 +12,11 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+<!-- Botão Flutuante do WhatsApp - VERSÃO CORRIGIDA -->
+<!-- Botão Flutuante WhatsApp com Imagem -->
+<a href="https://wa.me/5511957055256?text=Olá!" class="whatsapp-button" target="_blank" aria-label="Fale Conosco pelo WhatsApp">
+    <img src="assets/img/whatsapp-icon.svg" alt="Fale Conosco pelo WhatsApp">
+</a>
   <header class="site-header">
     <div class="header-container">
         <a class='site-logo' href='/'>
@@ -22,9 +27,9 @@
         <!-- Wrapper para todos os itens da direita -->
         <div class="header-right">
             <nav class="main-nav" id="mainNav">
-                <a href="/sobre.html">Sobre</a>
-                <a href="/index.html#servicos">Serviços</a>
-                <a href="/contato.html">Contato</a>
+                <a href='/sobre'>Sobre</a>
+                <a href='/#servicos'>Serviços</a>
+                <a href='/contato'>Contato</a>
             </nav>
             <div class="header-buttons">
                 <button id="theme-toggle" class="theme-toggle-button" aria-label="Alternar modo claro/escuro">
@@ -54,7 +59,7 @@
                 <div class="rules-text">
                     <h2 class="rules-title">AVISO: As regras do Maps mudaram.</h2>
                     <p class="rules-description">Descubra as novas ferramentas que decidem quem recebe os clientes... e quem fica invisível.</p>
-                    <a href="pillar-page.html" class="rules-button">CONHEÇA AS NOVAS REGRAS</a>
+                    <a class='rules-button' href='/pillar-page'>CONHEÇA AS NOVAS REGRAS</a>
                 </div>
                 <div class="rules-image">
                     <!-- COLOQUE O CAMINHO REAL PARA SUA IMAGEM AQUI -->
@@ -104,7 +109,7 @@
             <div class="container">
                 <h2>Descubra o potencial escondido do seu negócio</h2>
                 <p>Receba uma análise gratuita do seu Perfil no Google e veja exatamente onde seus concorrentes estão errando e deixando dinheiro na mesa. Sem compromisso.</p>
-                <form name="contato-zapy" class="cta-form" method="POST" data-netlify="true" action="/obrigado">
+                <form action='/obrigado' class='cta-form' method='POST' name='contato-zapy'>
     <!-- Linha de Identificação para a Netlify -->
     <input type="hidden" name="form-name" value="contato-zapy" />
 
@@ -130,83 +135,73 @@
 
     <div id="cookie-banner" class="cookie-banner"><p>Usamos cookies para melhorar sua experiência. Ao continuar a navegar, você concorda com nossa <a href='/politica-privacidade'>Política de Privacidade</a>.</p><button id="accept-cookies">Aceitar</button></div>
 
-    <script>
+       <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // LÓGICA DO COOKIE BANNER
             const cookieBanner = document.getElementById('cookie-banner');
             const acceptBtn = document.getElementById('accept-cookies');
-            if (!localStorage.getItem('cookiesAccepted')) {
+            if (cookieBanner && acceptBtn && !localStorage.getItem('cookiesAccepted')) {
                 cookieBanner.classList.add('show');
             }
-            acceptBtn.addEventListener('click', () => {
-                cookieBanner.classList.remove('show');
-                localStorage.setItem('cookiesAccepted', 'true');
-            });
+            if (acceptBtn) {
+                acceptBtn.addEventListener('click', () => {
+                    cookieBanner.classList.remove('show');
+                    localStorage.setItem('cookiesAccepted', 'true');
+                });
+            }
 
+            // LÓGICA DE MOSTRAR MAIS SERVIÇOS
             const toggleBtn = document.getElementById('toggleServicesBtn');
             const hiddenServices = document.querySelectorAll('.service-card.is-hidden');
-            toggleBtn.addEventListener('click', () => {
-                hiddenServices.forEach(card => {
-                    if (card.style.display === 'block') {
-                        card.style.display = 'none';
-                    } else {
-                        card.style.display = 'block';
-                    }
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    hiddenServices.forEach(card => {
+                        card.style.display = (card.style.display === 'block') ? 'none' : 'block';
+                    });
+                    const isHidden = hiddenServices[0].style.display === 'none';
+                    toggleBtn.textContent = isHidden ? 'Ver todos os serviços' : 'Mostrar menos';
                 });
-                const isHidden = hiddenServices[0].style.display === 'none';
-                toggleBtn.textContent = isHidden ? 'Ver todos os serviços' : 'Mostrar menos';
-            });
+            }
+
+            // LÓGICA DO MENU MOBILE
+            const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+            const mainNav = document.getElementById('mainNav');
+            if (mobileNavToggle && mainNav) {
+                mobileNavToggle.addEventListener('click', () => {
+                    mainNav.classList.toggle('is-active');
+                });
+            }
+
+            // LÓGICA DO MODO ESCURO
+            const themeToggleButton = document.getElementById('theme-toggle');
+            const body = document.body;
+            const sunIcon = document.getElementById('theme-icon-sun');
+            const moonIcon = document.getElementById('theme-icon-moon');
+
+            const applyTheme = (theme) => {
+                if (theme === 'dark') {
+                    body.classList.add('dark-mode');
+                    sunIcon.style.display = 'none';
+                    moonIcon.style.display = 'block';
+                } else {
+                    body.classList.remove('dark-mode');
+                    sunIcon.style.display = 'block';
+                    moonIcon.style.display = 'none';
+                }
+            };
+
+            if (themeToggleButton) {
+                const currentTheme = localStorage.getItem('theme');
+                if (currentTheme) {
+                    applyTheme(currentTheme);
+                }
+                themeToggleButton.addEventListener('click', () => {
+                    let newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
+                    localStorage.setItem('theme', newTheme);
+                    applyTheme(newTheme);
+                });
+            }
         });
     </script>
-    
-    <!-- ================== LOCAL DE INSTALAÇÃO DO BOT ================== -->
-    <script src="//code.tidio.co/zkvwssurzhp21mhxjuwz4tq0sjzirunx.js" async></script>
-    <script>
-document.addEventListener('DOMContentLoaded', () => {
-    // ... (código do cookie banner que já existe) ...
-
-    const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
-    const mainNav = document.getElementById('mainNav');
-
-    if (mobileNavToggle && mainNav) {
-        mobileNavToggle.addEventListener('click', () => {
-            mainNav.classList.toggle('is-active');
-        });
-    }
-});
-document.addEventListener('DOMContentLoaded', () => {
-    // ... (código do menu mobile e do cookie banner) ...
-
-    const themeToggleButton = document.getElementById('theme-toggle');
-    const body = document.body;
-    const sunIcon = document.getElementById('theme-icon-sun');
-    const moonIcon = document.getElementById('theme-icon-moon');
-
-    // Função para aplicar o tema e atualizar o ícone
-    const applyTheme = (theme) => {
-        if (theme === 'dark') {
-            body.classList.add('dark-mode');
-            sunIcon.style.display = 'none';
-            moonIcon.style.display = 'block';
-        } else {
-            body.classList.remove('dark-mode');
-            sunIcon.style.display = 'block';
-            moonIcon.style.display = 'none';
-        }
-    };
-
-    // Verifica o tema salvo no localStorage ao carregar a página
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme) {
-        applyTheme(currentTheme);
-    }
-
-    // Adiciona o evento de clique ao botão
-    themeToggleButton.addEventListener('click', () => {
-        let newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
-        localStorage.setItem('theme', newTheme);
-        applyTheme(newTheme);
-    });
-});
-</script>
 </body>
 </html>
