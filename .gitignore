@@ -1,0 +1,13 @@
+# Ignora TODAS as pastas node_modules em qualquer subdiretório
+**/node_modules
+
+# Ficheiros de build e produção
+/dist
+/.build
+
+# Ficheiros de sistema
+.DS_Store
+
+# Ficheiros de ambiente (segurança)
+.env
+.env.local
