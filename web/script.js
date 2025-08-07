@@ -1,3 +1,11 @@
+import { createClient } from 'https://esm.sh/@sanity/client';
+
+const sanityClient = createClient({
+  projectId: 'nt3spre6',
+  dataset: 'production',
+  useCdn: false,
+  apiVersion: '2024-08-06',
+});
 document.addEventListener('DOMContentLoaded', () => {
     // --- LÓGICA DO TEMA CLARO/ESCURO ---
     const themeToggleButton = document.getElementById('theme-toggle');
@@ -76,6 +84,24 @@ document.addEventListener('DOMContentLoaded', () => {
         acceptBtn.addEventListener('click', () => {
             if(cookieBanner) cookieBanner.classList.remove('show');
             localStorage.setItem('cookiesAccepted', 'true');
+            async function getServices() {
+  const servicesGrid = document.querySelector('.services-grid');
+  if (!servicesGrid) return;
+
+  const query = '*[_type == "servico"]{nome, descricaoCurta}';
+  const services = await sanityClient.fetch(query);
+
+  servicesGrid.innerHTML = ''; 
+  services.forEach(service => {
+    const card = document.createElement('a');
+    card.classList.add('service-card');
+    card.href = '#';
+    card.innerHTML = `<h3>${service.nome}</h3><p>${service.descricaoCurta}</p>`;
+    servicesGrid.appendChild(card);
+  });
+}
+
+getServices();
         });
     }
 });
