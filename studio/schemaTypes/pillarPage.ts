@@ -10,7 +10,7 @@ export default {
       name: 'slug',
       title: 'URL (Slug)',
       type: 'slug',
-      options: { source: 'titulo' },
+      options: { },
     },
     {
       name: 'secoes',
