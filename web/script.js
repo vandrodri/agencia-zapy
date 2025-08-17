@@ -2,6 +2,8 @@
 //  1. CONFIGURAÇÃO DO CLIENTE SANITY
 // =============================================================
 import { createClient } from 'https://esm.sh/@sanity/client';
+import { toHTML } from 'https://esm.sh/@portabletext/to-html';
+import imageUrlBuilder from 'https://esm.sh/@sanity/image-url'; // <-- Linha 1 (Importar)
 
 const sanityClient = createClient({
   projectId: 'nt3spre6',
@@ -10,29 +12,58 @@ const sanityClient = createClient({
   apiVersion: '2024-08-06',
 });
 
+// Inicializa o construtor de URLs de imagem
+const builder = imageUrlBuilder(sanityClient); // <-- Linha 2 (Inicializar)
 
 // =============================================================
 //  2. DEFINIÇÃO DAS FUNÇÕES QUE BUSCAM DADOS
 // =============================================================
 
 // Função para buscar os serviços (para a página inicial)
+// Função para buscar os serviços (para a página inicial) - VERSÃO CORRIGIDA
 async function getServices() {
   const servicesGrid = document.querySelector('.services-grid');
   if (!servicesGrid) return;
 
-  const query = '*[_type == "servico"]{nome, descricaoCurta}';
+  // Consulta atualizada para buscar o slug da landing page associada
+  const query = `*[_type == "servico"]{
+    nome,
+    descricaoCurta,
+    "slugDaLp": landingPageAssociada->slug.current
+  }`;
+  
   try {
     const services = await sanityClient.fetch(query);
+
+    // Se não houver serviços, mostra uma mensagem e para.
+    if (!services || services.length === 0) {
+      servicesGrid.innerHTML = '<p>Nenhum serviço cadastrado no momento.</p>';
+      return;
+    }
+
+    // Limpa a mensagem de "carregando"
     servicesGrid.innerHTML = ''; 
+
     services.forEach(service => {
       const card = document.createElement('a');
       card.classList.add('service-card');
-      card.href = '#';
+      
+      // Lógica para criar o link:
+      // Se um slug foi associado no Sanity, cria o link para o .html.
+      // Se não, cria um link morto para evitar erros.
+      if (service.slugDaLp) {
+        card.href = `${service.slugDaLp}.html`;
+      } else {
+        card.href = '#';
+        console.warn(`Serviço "${service.nome}" não tem uma Landing Page associada.`);
+      }
+
       card.innerHTML = `<h3>${service.nome}</h3><p>${service.descricaoCurta}</p>`;
       servicesGrid.appendChild(card);
     });
   } catch (error) {
     console.error("Erro ao buscar serviços:", error);
+    servicesGrid.innerHTML = '<p>Ocorreu um erro ao carregar os serviços.</p>';
   }
 }
 
@@ -54,15 +85,10 @@ async function getPaginaGenerica() {
     if (pagina) {
       document.title = `${pagina.titulo} | Zapy`;
       tituloPagina.textContent = pagina.titulo;
-      conteudoPagina.innerHTML = '';
-      if (pagina.conteudo) {
-        pagina.conteudo.forEach(bloco => {
-          if (bloco._type === 'block' && bloco.children) {
-            const p = document.createElement('p');
-            p.textContent = bloco.children.map(span => span.text).join('');
-            conteudoPagina.appendChild(p);
-          }
-        });
+            if (pagina.conteudo) {
+        conteudoPagina.innerHTML = toHTML(pagina.conteudo);
+      } else {
+        conteudoPagina.innerHTML = ''; // Limpa o conteúdo se não houver nada no Sanity
       }
     } else {
       console.warn(`Nenhum conteúdo encontrado para a página com slug: ${slug}`);
@@ -117,41 +143,40 @@ async function carregarDepoimentos() {
   }
 }
 // Função para buscar e exibir os membros da equipe
+// Função para buscar e exibir os membros da equipe - VERSÃO OTIMIZADA
 async function carregarEquipe() {
-  // 1. Encontra o container onde os cards da equipe ficarão
-  const equipeGrid = document.querySelector('.team-grid'); // Usaremos esta classe no HTML
-  
-  // Se a página não tiver uma grade de equipe, a função para.
+  const equipeGrid = document.querySelector('.team-grid');
   if (!equipeGrid) return;
 
-  // 2. A consulta para buscar TODOS os membros da equipe
-  // NOTA: Precisamos de uma função especial para pegar a URL da imagem
+  // 1. Consulta atualizada: agora pedimos o objeto 'foto' inteiro
   const query = `*[_type == "membroEquipe"]{
     nome,
     cargo,
-    "urlFoto": foto.asset->url
+    foto 
   }`;
   
   try {
     const equipe = await sanityClient.fetch(query);
 
     if (equipe && equipe.length > 0) {
-      // 3. Limpa o conteúdo estático do HTML
       equipeGrid.innerHTML = '';
 
-      // 4. Para cada membro, cria um card e o insere na página
       equipe.forEach(membro => {
         const card = document.createElement('article');
-        card.classList.add('team-card'); // Usaremos esta classe para estilizar
+        card.classList.add('team-card');
 
-        // Monta o conteúdo HTML do card
+        // 2. A MÁGICA ACONTECE AQUI:
+        // Usamos o 'builder' para criar uma URL de imagem otimizada
+        // Pedimos uma imagem com 400px de largura, 400px de altura e formato 'webp' (super leve)
+        const urlFotoOtimizada = builder.image(membro.foto).width(400).height(400).format('webp').url();
+
+        // 3. Usamos a nova URL otimizada na tag <img>
         card.innerHTML = `
-          <img src="${membro.urlFoto}" alt="Foto de ${membro.nome}">
+          <img src="${urlFotoOtimizada}" alt="Foto de ${membro.nome}" width="400" height="400">
           <h3>${membro.nome}</h3>
           <p>${membro.cargo}</p>
         `;
 
-        // Adiciona o card recém-criado ao grid
         equipeGrid.appendChild(card);
       });
     }
@@ -205,12 +230,86 @@ async function carregarDiferenciais() {
     console.error('ERRO AO BUSCAR DIFERENCIAIS:', error);
   }
 }
+// Função para buscar e construir a Pillar Page
+async function carregarPillarPage() {
+  // 1. Encontra o container principal da página. Se não existir, não estamos na pillar page.
+  const mainContainer = document.querySelector('.pillar-content-section .container');
+  if (!mainContainer) return;
+
+  // 2. A consulta GROQ para buscar a pillar page com todas as suas seções e tópicos
+  const query = `*[_type == "pillarPage" && slug.current == "pillar-page"][0]{
+    titulo,
+    subtitulo,
+    secoes[]{ // O '[]' indica que queremos todos os itens do array 'secoes'
+      titulo,
+      topicos[]{ // E dentro de cada seção, todos os itens do array 'topicos'
+        titulo,
+        descricao,
+        link
+      }
+    },
+    ctaTitulo,
+    ctaTexto,
+    ctaLinkBotao,
+    ctaTextoBotao
+  }`;
+  
+  try {
+    const pagina = await sanityClient.fetch(query);
+
+    if (pagina) {
+      // 3. Preenche o cabeçalho (hero section)
+      document.querySelector('.pillar-hero-section h1').textContent = pagina.titulo;
+      document.querySelector('.pillar-hero-section .subtitle').textContent = pagina.subtitulo;
+
+      // 4. Limpa o conteúdo estático do container principal
+      mainContainer.innerHTML = '';
+
+      // 5. Constrói cada seção dinamicamente
+      pagina.secoes.forEach(secao => {
+        // Cria o título da seção
+        const secaoTitulo = document.createElement('h2');
+        secaoTitulo.textContent = secao.titulo;
+        mainContainer.appendChild(secaoTitulo);
+
+        // Cria a grade para os tópicos
+        const pillarGrid = document.createElement('div');
+        pillarGrid.classList.add('pillar-grid');
+
+        // Cria cada card de tópico dentro da grade
+        secao.topicos.forEach(topico => {
+          const featureBox = document.createElement('article');
+          featureBox.classList.add('feature-box');
+          featureBox.innerHTML = `
+            <h3>${topico.titulo}</h3>
+            <p>${topico.descricao}</p>
+            <a href="${topico.link}">${topico.titulo.startsWith('AI') ? 'Quero controlar o que a IA diz sobre mim' : 'Saiba mais'} →</a>
+          `; // Nota: O texto do link é simplificado aqui, podemos melhorar depois.
+          pillarGrid.appendChild(featureBox);
+        });
+
+        mainContainer.appendChild(pillarGrid);
+      });
+
+      // 6. Preenche a seção final de CTA
+      document.querySelector('.cta-section h2').textContent = pagina.ctaTitulo;
+      document.querySelector('.cta-section p').textContent = pagina.ctaTexto;
+      const ctaButton = document.querySelector('.cta-section .cta-button');
+      ctaButton.textContent = pagina.ctaTextoBotao;
+      ctaButton.href = pagina.ctaLinkBotao;
+
+    }
+  } catch (error) {
+    console.error('ERRO AO CARREGAR A PILLAR PAGE:', error);
+  }
+}
 // =============================================================
-//  3. LÓGICA DE INTERATIVIDADE DA PÁGINA (EVENTOS)
 // =============================================================
-document.addEventListener('DOMContentLoaded', () => {
+//  3. FUNÇÃO PARA INICIALIZAR A INTERATIVIDADE
+// =============================================================
+
+function inicializarInteratividade() {
     // --- LÓGICA DO TEMA CLARO/ESCURO ---
-    // ... (todo o seu código de tema, menu, faq, etc. continua aqui, sem alterações)
     const themeToggleButton = document.getElementById('theme-toggle');
     const body = document.body;
     const sunIcon = document.getElementById('theme-icon-sun');
@@ -248,30 +347,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // --- LÓGICA DO FAQ (ACORDEÃO) ---
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        if (question) {
-            question.addEventListener('click', () => {
-                item.classList.toggle('active');
-            });
-        }
-    });
-
-    // --- LÓGICA DO BOTÃO "VER SERVIÇOS" ---
-    const toggleBtn = document.getElementById('toggleServicesBtn');
-    if (toggleBtn) {
-        const hiddenServices = document.querySelectorAll('.service-card.is-hidden');
-        toggleBtn.addEventListener('click', () => {
-            hiddenServices.forEach(card => {
-                card.style.display = card.style.display === 'block' ? 'none' : 'block';
-            });
-            const isHidden = hiddenServices[0] && hiddenServices[0].style.display === 'none';
-            toggleBtn.textContent = isHidden ? 'Ver todos os serviços' : 'Mostrar menos';
-        });
-    }
-
     // --- LÓGICA DO BANNER DE COOKIES ---
     const cookieBanner = document.getElementById('cookie-banner');
     const acceptBtn = document.getElementById('accept-cookies');
@@ -284,14 +359,34 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('cookiesAccepted', 'true');
         });
     }
-});
+}
+
 
 // =============================================================
-//  4. CHAMADA DAS FUNÇÕES DE BUSCA DE DADOS
 // =============================================================
-getServices();
-getPaginaGenerica();
-carregarConfiguracoesGlobais();
-carregarDepoimentos();
-carregarEquipe(); 
-carregarDiferenciais();
+//  4. PONTO DE ENTRADA PRINCIPAL DA APLICAÇÃO
+// =============================================================
+
+// Função principal que inicia tudo
+function iniciarSite() {
+  // Primeiro, busca todos os dados do Sanity
+  getServices();
+  getPaginaGenerica();
+  carregarConfiguracoesGlobais();
+  carregarDepoimentos();
+  carregarEquipe();
+  carregarDiferenciais();
+  carregarPillarPage();
+
+  // Depois, aplica toda a interatividade
+  inicializarInteratividade();
+}
+
+// A maneira mais segura de garantir que tudo carregou antes de rodar
+if (document.readyState === 'loading') {
+  // A página ainda está carregando, então esperamos pelo evento
+  document.addEventListener('DOMContentLoaded', iniciarSite);
+} else {
+  // O DOM já está pronto, podemos rodar imediatamente
+  iniciarSite();
+}
