@@ -631,3 +631,26 @@ body.dark-mode .hero-section h1 { background: linear-gradient(45deg, #8ab4f8, #4
 =======
 >>>>>>> 8dc39e1f1ea4a132f1c33457321bb445951f5b78
 }
+/* Remove o sublinhado do botão que virou link */
+.toggle-services-button {
+  text-decoration: none;
+}
+/* Altera a cor do botão "Conheça as Novas Regras" */
+.rules-button {
+  background-color: #1A73E8;
+  border-color: #1A73E8; /* Garante que a borda tenha a mesma cor */
+  color: #FFFFFF; /* Garante que o texto fique branco e legível */
+}
+/* Estilos para o conteúdo rico (Block Content) - VERSÃO REFORÇADA */
+main.container .pagina-conteudo ul,
+main.container .pagina-conteudo ol {
+  list-style-position: inside; /* Coloca os bullets para dentro do recuo */
+  padding-left: 0;             /* Remove o padding padrão para controlarmos com margin */
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: left;            /* Força o alinhamento do texto da lista à esquerda */
+}
+
+main.container .pagina-conteudo li {
+  margin-bottom: 0.5rem; /* Adiciona um pequeno espaço entre os itens da lista */
+}
