@@ -69,6 +69,13 @@ async function getServices() {
 
 // Função GENÉRICA para carregar conteúdo de Landing Pages
 async function getPaginaGenerica() {
+  // ADICIONE ESTA LINHA PARA DEPURAR
+  console.log('DEBUG NETLIFY:', window.location.pathname); 
+
+  const tituloPagina = document.querySelector('.pagina-titulo');
+  // ... resto da função ...
+}
+async function getPaginaGenerica() {
   const tituloPagina = document.querySelector('.pagina-titulo');
   const conteudoPagina = document.querySelector('.pagina-conteudo');
   if (!tituloPagina || !conteudoPagina) return;
