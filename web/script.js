@@ -75,19 +75,7 @@ async function getPaginaGenerica() {
   const tituloPagina = document.querySelector('.pagina-titulo');
   // ... resto da função ...
 }
-async function getPaginaGenerica() {
-  const tituloPagina = document.querySelector('.pagina-titulo');
-  const conteudoPagina = document.querySelector('.pagina-conteudo');
-  if (!tituloPagina || !conteudoPagina) return;
 
-  const path = window.location.pathname;
-  const nomeArquivo = path.substring(path.lastIndexOf('/') + 1);
-  const slug = nomeArquivo.replace('.html', '');
-
-  if (!slug || slug === 'index' || slug === '') return;
-
-  const query = `*[_type == "landingPage" && slug.current == "${slug}"][0]`;
-  try {
     const pagina = await sanityClient.fetch(query);
     if (pagina) {
       document.title = `${pagina.titulo} | Zapy`;
