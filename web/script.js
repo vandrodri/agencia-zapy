@@ -88,7 +88,7 @@ async function getPaginaGenerica() {
     } else {
       console.warn(`Nenhum conteúdo encontrado para a página com slug: ${slug}`);
     }
-  } catch (error) {
+  catch (error) {
     console.error(`ERRO AO BUSCAR DADOS PARA A PÁGINA ${slug}:`, error);
   }
 }
