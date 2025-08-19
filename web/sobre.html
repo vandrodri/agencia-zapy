@@ -4,24 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre Nós | Zapy: Tecnologia local, descomplicada</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- CAMINHO CORRIGIDO -->
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+    <!-- Botão Flutuante WhatsApp com Imagem -->
+    <a href="https://wa.me/5511957055256?text=Olá!" class="whatsapp-button" target="_blank" aria-label="Fale Conosco pelo WhatsApp">
+        <img src="/assets/img/whatsapp-icon.svg" alt="Fale Conosco pelo WhatsApp">
+    </a>
 
-    <!-- CABEÇALHO (pode ser o mesmo do index.html) -->
+    <!-- CABEÇALHO COMPLETO E CORRIGIDO -->
     <header class="site-header">
         <div class="header-container">
-            <a class='site-logo' href='index.html'>
+            <a class='site-logo' href='/'>
                 <svg class="logo-svg" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg"><path d="M10 10 H90 V25 H25 L75 55 H10 V40 H75 L25 10 H10 Z" fill="currentColor"/></svg>
                 <span>Zapy</span>
             </a>
             <div class="header-right">
                 <nav class="main-nav" id="mainNav">
-                    <a href="sobre.html">Sobre</a>
-                    <a href="index.html#servicos">Serviços</a>
-                    <a href="contato.html">Contato</a>
+                    <a href="/sobre.html">Sobre</a>
+                    <a href="/#servicos">Serviços</a>
+                    <a href="/contato.html">Contato</a>
                 </nav>
                 <div class="header-buttons">
                     <button id="theme-toggle" class="theme-toggle-button" aria-label="Alternar modo claro/escuro">
@@ -36,24 +43,33 @@
         </div>
     </header>
 
-    <!-- CONTEÚDO PRINCIPAL DA PÁGINA "SOBRE" -->
-    <main class="container">
-        <!-- Este é o local para o título -->
-        <h1 class="pagina-titulo">Carregando...</h1>
-
-        <!-- Este é o local para o conteúdo de texto -->
-        <div class="pagina-conteudo">
-            <p>Buscando informações no Sanity...</p>
-        </div>
+    <main>
+        <!-- INÍCIO DO CONTEÚDO DA PÁGINA SOBRE -->
+        <section class="hero-section-simple">
+            <div class="container">
+                <h1 class="pagina-titulo">Sobre Nós</h1>
+                <div class="pagina-conteudo">
+                    <p>Carregando conteúdo...</p>
+                </div>
+            </div>
+        </section>
+        <!-- FIM DO CONTEÚDO DA PÁGINA SOBRE -->
     </main>
 
-    <!-- RODAPÉ (pode ser o mesmo do index.html) -->
+    <!-- RODAPÉ COMPLETO E CORRIGIDO -->
     <footer class="site-footer">
-        <!-- Cole o código do seu rodapé aqui para manter a consistência -->
+        <div class="footer-container">
+            <div class="footer-column"><h4>Zapy</h4><p>Ajudamos negócios locais a serem encontrados, escolhidos e amados por mais clientes através do Google.</p></div>
+            <div class="footer-column"><h4>Navegação</h4><a href='/'>Home</a><a href='/sobre.html'>Sobre Nós</a><a href="/#servicos">Serviços</a><a href='/contato.html'>Contato</a></div>
+            <div class="footer-column"><h4>Legal</h4><a href='/politica-privacidade.html'>Política de Privacidade</a><a href='/termos-uso.html'>Termos de Uso</a></div>
+            <div class="footer-column"><h4>Siga-nos</h4><div class="footer-socials"><a href="#" aria-label="Instagram" target="_blank"><svg fill="none" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><rect height="20" rx="5" ry="5" width="20" x="2" y="2"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg></a><a href="#" aria-label="Facebook" target="_blank"><svg fill="none" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a><a href="#" aria-label="LinkedIn" target="_blank"><svg fill="none" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect height="12" width="4" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg></a></div></div>
+        </div>
+        <div class="footer-bottom"><p>© 2025 Zapy. Todos os direitos reservados.</p></div>
     </footer>
 
-    <!-- Nosso script inteligente que faz tudo funcionar -->
-    <script type="module" src="/script.js"></script>
+    <div id="cookie-banner" class="cookie-banner"><p>Usamos cookies para melhorar sua experiência. Ao continuar a navegar, você concorda com nossa <a href='/politica-privacidade.html'>Política de Privacidade</a>.</p><button id="accept-cookies">Aceitar</button></div>
 
+    <!-- SCRIPT CORRIGIDO COM type="module" E CAMINHO ABSOLUTO -->
+    <script type="module" src="/script.js"></script>
 </body>
 </html>
