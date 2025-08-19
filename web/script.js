@@ -88,11 +88,10 @@ async function getPaginaGenerica() {
     } else {
       console.warn(`Nenhum conteúdo encontrado para a página com slug: ${slug}`);
     }
+  } // <-- ADICIONE ESTA CHAVE AQUI
   catch (error) {
     console.error(`ERRO AO BUSCAR DADOS PARA A PÁGINA ${slug}:`, error);
   }
-}
-
 // Função para buscar e aplicar as configurações globais
 async function carregarConfiguracoesGlobais() {
   const query = `*[_type == "configuracoes"][0]`;
