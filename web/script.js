@@ -68,19 +68,26 @@ async function getServices() {
 }
 
 // Função GENÉRICA para carregar conteúdo de Landing Pages
-async function getPaginaGenerica() {
-  // ADICIONE ESTA LINHA PARA DEPURAR
-  console.log('DEBUG NETLIFY:', window.location.pathname); 
+// Função GENÉRICA para carregar conteúdo de Landing Pages
+async function getPaginaGenerica(slug) {
+  // O try...catch deve começar AQUI, dentro da função
+  try {
+    const tituloPagina = document.querySelector('.pagina-titulo');
+    const conteudoPagina = document.querySelector('.pagina-conteudo');
 
-  const tituloPagina = document.querySelector('.pagina-titulo');
-  // ... resto da função ...
-}
+    // Se os elementos não existirem na página, não faz nada.
+    if (!tituloPagina || !conteudoPagina) {
+      return;
+    }
 
-    const pagina = await sanityClient.fetch(query);
+    const query = `*[_type == "paginaGenerica" && slug.current == $slug][0]`;
+    const params = { slug };
+    const pagina = await sanityClient.fetch(query, params);
+
     if (pagina) {
       document.title = `${pagina.titulo} | Zapy`;
       tituloPagina.textContent = pagina.titulo;
-            if (pagina.conteudo) {
+      if (pagina.conteudo) {
         conteudoPagina.innerHTML = toHTML(pagina.conteudo);
       } else {
         conteudoPagina.innerHTML = ''; // Limpa o conteúdo se não houver nada no Sanity
@@ -88,10 +95,11 @@ async function getPaginaGenerica() {
     } else {
       console.warn(`Nenhum conteúdo encontrado para a página com slug: ${slug}`);
     }
-  } // <-- ADICIONE ESTA CHAVE AQUI
-  catch (error) {
+  } // A chave do 'try' fecha aqui
+  catch (error) { // E o 'catch' vem logo em seguida
     console.error(`ERRO AO BUSCAR DADOS PARA A PÁGINA ${slug}:`, error);
   }
+} // A função inteira termina aqui
 // Função para buscar e aplicar as configurações globais
 async function carregarConfiguracoesGlobais() {
   const query = `*[_type == "configuracoes"][0]`;
