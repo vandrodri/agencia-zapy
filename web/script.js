@@ -366,22 +366,42 @@ function inicializarInteratividade() {
 
 // =============================================================
 // =============================================================
-//  4. PONTO DE ENTRADA PRINCIPAL DA APLICAÇÃO
+//  // =============================================================
+// 4. PONTO DE ENTRADA PRINCIPAL DA APLICAÇÃO
 // =============================================================
 
 // Função principal que inicia tudo
 function iniciarSite() {
-  // Primeiro, busca todos os dados do Sanity
-  getServices();
-  getPaginaGenerica();
-  carregarConfiguracoesGlobais();
-  carregarDepoimentos();
-  carregarEquipe();
-  carregarDiferenciais();
-  carregarPillarPage();
+  // 1. Funções que rodam em TODAS as páginas
+  carregarConfiguracoesGlobais(); // Para o botão de WhatsApp, etc.
+  inicializarInteratividade();   // Para o menu, tema escuro, etc.
 
-  // Depois, aplica toda a interatividade
-  inicializarInteratividade();
+  // 2. Roteador: Decide o que carregar baseado na URL da página
+  const path = window.location.pathname;
+
+  if (path === '/' || path === '/index.html') {
+    // Funções que rodam SÓ na PÁGINA INICIAL
+    console.log("Estou na Home, carregando conteúdo da Home...");
+    getServices();
+    carregarDepoimentos();
+    carregarEquipe();
+    carregarDiferenciais();
+  } 
+  else if (path === '/sobre.html') {
+    // Funções que rodam SÓ na PÁGINA SOBRE
+    console.log("Estou em Sobre, carregando conteúdo genérico...");
+    // Passamos o 'slug' da página que queremos buscar no Sanity
+    getPaginaGenerica('sobre'); 
+  } 
+  else if (path === '/pillar-page.html') {
+    // Funções que rodam SÓ na PILLAR PAGE
+    console.log("Estou na Pillar Page, carregando conteúdo dela...");
+    carregarPillarPage();
+  }
+  // ADICIONE AQUI OUTRAS PÁGINAS NO FUTURO
+  // else if (path === '/contato.html') {
+  //   getPaginaGenerica('contato');
+  // }
 }
 
 // A maneira mais segura de garantir que tudo carregou antes de rodar
