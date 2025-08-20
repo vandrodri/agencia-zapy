@@ -370,11 +370,15 @@ function inicializarInteratividade() {
 // 4. PONTO DE ENTRADA PRINCIPAL DA APLICAÇÃO
 // =============================================================
 
+// =============================================================
+// 4. PONTO DE ENTRADA PRINCIPAL DA APLICAÇÃO (VERSÃO FINAL)
+// =============================================================
+
 // Função principal que inicia tudo
 function iniciarSite() {
   // 1. Funções que rodam em TODAS as páginas
-  carregarConfiguracoesGlobais(); // Para o botão de WhatsApp, etc.
-  inicializarInteratividade();   // Para o menu, tema escuro, etc.
+  carregarConfiguracoesGlobais();
+  inicializarInteratividade();
 
   // 2. Roteador: Decide o que carregar baseado na URL da página
   const path = window.location.pathname;
@@ -387,28 +391,27 @@ function iniciarSite() {
     carregarEquipe();
     carregarDiferenciais();
   } 
-  else if (path === '/sobre.html') {
+  // CORREÇÃO: Aceita a URL com e sem .html
+  else if (path === '/sobre' || path === '/sobre.html') {
     // Funções que rodam SÓ na PÁGINA SOBRE
     console.log("Estou em Sobre, carregando conteúdo genérico...");
-    // Passamos o 'slug' da página que queremos buscar no Sanity
     getPaginaGenerica('sobre'); 
   } 
-  else if (path === '/pillar-page.html') {
+  // CORREÇÃO: Aceita a URL com e sem .html
+  else if (path === '/pillar-page' || path === '/pillar-page.html') {
     // Funções que rodam SÓ na PILLAR PAGE
     console.log("Estou na Pillar Page, carregando conteúdo dela...");
     carregarPillarPage();
   }
   // ADICIONE AQUI OUTRAS PÁGINAS NO FUTURO
-  // else if (path === '/contato.html') {
+  // else if (path === '/contato' || path === '/contato.html') {
   //   getPaginaGenerica('contato');
   // }
 }
 
 // A maneira mais segura de garantir que tudo carregou antes de rodar
 if (document.readyState === 'loading') {
-  // A página ainda está carregando, então esperamos pelo evento
   document.addEventListener('DOMContentLoaded', iniciarSite);
 } else {
-  // O DOM já está pronto, podemos rodar imediatamente
   iniciarSite();
 }
