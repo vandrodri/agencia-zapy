@@ -408,6 +408,12 @@ function iniciarSite() {
   //   getPaginaGenerica('contato');
   // }
 }
+  else if (path === '/contato' || path === '/contato.html') {
+    // Funções que rodam SÓ na PÁGINA CONTATO
+    console.log("Estou em Contato, carregando conteúdo genérico...");
+    // Usamos o slug 'contato' para buscar os dados no Sanity
+    getPaginaGenerica('contato'); 
+  }
 
 // A maneira mais segura de garantir que tudo carregou antes de rodar
 if (document.readyState === 'loading') {
