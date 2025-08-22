@@ -418,7 +418,8 @@ function iniciarSite() {
 // A maneira mais segura de garantir que tudo carregou antes de rodar
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', iniciarSite);
-} // =============================================================
+} 
+// =============================================================
 // 4. PONTO DE ENTRADA PRINCIPAL DA APLICAÇÃO (VERSÃO FINAL)
 // =============================================================
 
