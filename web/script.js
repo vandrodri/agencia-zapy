@@ -418,6 +418,48 @@ function iniciarSite() {
 // A maneira mais segura de garantir que tudo carregou antes de rodar
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', iniciarSite);
+} // =============================================================
+// 4. PONTO DE ENTRADA PRINCIPAL DA APLICAÇÃO (VERSÃO FINAL)
+// =============================================================
+
+// Função principal que inicia tudo
+function iniciarSite() {
+  // 1. Funções que rodam em TODAS as páginas
+  carregarConfiguracoesGlobais();
+  inicializarInteratividade();
+
+  // 2. Roteador: Decide o que carregar baseado na URL da página
+  const path = window.location.pathname;
+
+  if (path === '/' || path === '/index.html') {
+    // Funções que rodam SÓ na PÁGINA INICIAL
+    console.log("Estou na Home, carregando conteúdo da Home...");
+    getServices();
+    carregarDepoimentos();
+    carregarEquipe();
+    carregarDiferenciais();
+  } 
+  else if (path === '/quem-somos' || path === '/quem-somos.html') {
+    // Funções que rodam SÓ na PÁGINA SOBRE
+    console.log("Estou em Quem Somos, carregando conteúdo genérico...");
+    getPaginaGenerica('sobre'); 
+  } 
+  else if (path === '/pillar-page' || path === '/pillar-page.html') {
+    // Funções que rodam SÓ na PILLAR PAGE
+    console.log("Estou na Pillar Page, carregando conteúdo dela...");
+    carregarPillarPage();
+  }
+  else if (path === '/contato' || path === '/contato.html') {
+    // Funções que rodam SÓ na PÁGINA CONTATO
+    console.log("Estou em Contato, carregando conteúdo genérico...");
+    getPaginaGenerica('contato'); 
+  }
+  // ADICIONE AQUI OUTRAS PÁGINAS NO FUTURO
+}
+
+// A maneira mais segura de garantir que tudo carregou antes de rodar
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', iniciarSite);
 } else {
   iniciarSite();
 }
